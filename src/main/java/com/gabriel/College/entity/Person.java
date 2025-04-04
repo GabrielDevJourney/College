@@ -41,7 +41,10 @@ public class Person implements UserDetails {
 	@Column(nullable = false)
 	private LocalDate birthDate;
 
-	@Column(nullable = false)
+	@Column(name = "active", nullable = false)
+	private Boolean active;
+
+	@Column(name = "password")
 	private String password;
 
 	@Enumerated(EnumType.STRING)

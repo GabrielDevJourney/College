@@ -1,4 +1,4 @@
-package com.gabriel.College.dto.response;
+package com.gabriel.College.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponseDto {
+public class PasswordSetupDto {
 	private String email;
-	private String firstName;
-	private String lastName;
-	private String token;
+	private String password;
 }
