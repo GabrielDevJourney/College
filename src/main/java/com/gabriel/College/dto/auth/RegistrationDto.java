@@ -1,4 +1,4 @@
-package com.gabriel.College.dto.request;
+package com.gabriel.College.dto.auth;
 
 import com.gabriel.College.enums.RoleType;
 import jakarta.validation.constraints.*;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class PersonRequestDto {
+public class RegistrationDto {
 	@NotBlank(message = "Must have first name")
 	@Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
 	@Pattern(regexp = "^[a-zA-Z\\s'-]+$",
@@ -34,12 +34,6 @@ public class PersonRequestDto {
 
 	@NotNull(message = "Must have age")
 	private LocalDate birthDate;
-
-	@NotBlank(message = "Password is required")
-	@Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
-			message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, and one special character")
-	private String password;
 
 	private RoleType role;
 }

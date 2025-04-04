@@ -1,15 +1,11 @@
 package com.gabriel.College.controller;
 
-import com.gabriel.College.dto.request.StudentRequestDto;
-import com.gabriel.College.dto.response.AuthResponseDto;
+import com.gabriel.College.dto.auth.RegistrationDto;
+import com.gabriel.College.dto.request.PasswordSetupDto;
 import com.gabriel.College.service.AuthService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,10 +16,22 @@ public class AuthController {
 		this.authService = authService;
 	}
 
-	@PostMapping("/register/student")
-	@Transactional
-	public ResponseEntity<Void> registerStudent(@Valid @RequestBody StudentRequestDto studentRequestDto) {
-		AuthResponseDto response = authService.registerStudent(studentRequestDto);
-		return ResponseEntity.ok().build();
+	@PostMapping("/register")
+	public ResponseEntity<String> registerStudent(@Valid @RequestBody RegistrationDto registrationDto) {
+		authService.register(registrationDto);
+		return ResponseEntity.ok("Verify email by the link sent on your email address");
+
+	}
+
+	@GetMapping(value="/confirm-account")
+	public ResponseEntity<String> confirmUserAccount(@RequestParam("token")String verificationToken) {
+		authService.confirmAccount(verificationToken);
+		return ResponseEntity.ok("Account activated with success!");
+	}
+
+	@PatchMapping("/password")
+	public ResponseEntity<String> setupPassword(@Valid @RequestBody PasswordSetupDto passwordSetupDto) {
+		authService.setupPassword(passwordSetupDto);
+		return ResponseEntity.ok("Password created with success");
 	}
 }
