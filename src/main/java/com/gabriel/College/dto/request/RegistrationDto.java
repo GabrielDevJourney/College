@@ -1,4 +1,4 @@
-package com.gabriel.College.dto.auth;
+package com.gabriel.College.dto.request;
 
 import com.gabriel.College.enums.RoleType;
 import jakarta.validation.constraints.*;

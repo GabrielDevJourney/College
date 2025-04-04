@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 @Component
-public class PersonValidator {
+public class RegistrationValidator {
 	private final PersonRepository personRepository;
 	private final EmailValidator emailValidator;
-	private static final Logger log = LoggerFactory.getLogger(PersonValidator.class);
+	private static final Logger log = LoggerFactory.getLogger(RegistrationValidator.class);
 
-	public PersonValidator(PersonRepository personRepository, EmailValidator emailValidator) {
+	public RegistrationValidator(PersonRepository personRepository, EmailValidator emailValidator) {
 		this.personRepository = personRepository;
 		this.emailValidator = emailValidator;
 	}
