@@ -1,5 +1,9 @@
 package com.gabriel.College.exception;
 
+import com.gabriel.College.exception.person.PersonEmailAlreadyExistsException;
+import com.gabriel.College.exception.person.PersonIsNotActiveException;
+import com.gabriel.College.exception.person.PersonPhoneNumberAlreadyExistsException;
+import com.gabriel.College.exception.token.TokenExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,7 @@ public class GlobalExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+	//*PARENT EXCEPTION HANDLING
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
 		logger.error("Failed to find resource in database: {}", ex.getMessage());
@@ -46,4 +51,32 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body("An unexpected error occurred. Please try again later.");
 	}
+
+	//*CUSTOMIZE EXCEPTION HANDLING
+	@ExceptionHandler(PersonEmailAlreadyExistsException.class)
+	public ResponseEntity<String> handleEmailExists(PersonEmailAlreadyExistsException ex) {
+		logger.error("Email conflict: {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT)
+				.body(ex.getMessageForClient());
+	}
+
+	@ExceptionHandler(PersonPhoneNumberAlreadyExistsException.class)
+	public ResponseEntity<String> handlePhoneNumberExists(PersonPhoneNumberAlreadyExistsException ex){
+		logger.error("Phone number conflict : {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessageForClient());
+	}
+
+	@ExceptionHandler(PersonIsNotActiveException.class)
+	public ResponseEntity<String> handlePersonNotActive(PersonIsNotActiveException ex){
+		logger.error("Person account not active : {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessageForClient());
+	}
+
+	@ExceptionHandler(TokenExpiredException.class)
+	public ResponseEntity<String> handleTokenExpired(TokenExpiredException ex){
+		logger.error("Token expired : {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.GONE).body(ex.getMessageForClient());
+	}
+
+
 }
