@@ -55,7 +55,11 @@ public class RegistrationService {
 		Person personSaved = personRepository.saveAndFlush(person);
 		saveBasedOnRole(personSaved);
 
-		emailService.sendVerificationEmail(personSaved);
+		VerificationToken verificationToken = new VerificationToken(personSaved);
+		verificationTokenRepository.save(verificationToken);
+		String email = personSaved.getEmail();
+
+		emailService.sendVerificationEmail(email,verificationToken);
 	}
 
 	@Transactional
